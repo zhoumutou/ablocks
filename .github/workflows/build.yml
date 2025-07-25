@@ -37,6 +37,8 @@ jobs:
         with:
           node-version: '22'
           architecture: ${{ matrix.arch }}
+          cache: 'pnpm'  # 使用内置缓存
+          cache-dependency-path: '**/pnpm-lock.yaml'
           
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -46,6 +48,18 @@ jobs:
           
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
+
+      # 可选：缓存 Electron 预编译二进制文件
+      - name: Cache Electron
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/electron
+            ~/Library/Caches/electron
+            %LOCALAPPDATA%\electron\Cache
+          key: ${{ runner.os }}-${{ matrix.arch }}-electron-${{ hashFiles('**/package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ matrix.arch }}-electron-
           
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
