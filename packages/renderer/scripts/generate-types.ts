@@ -15,14 +15,12 @@ async function main() {
   const server = await createServer({
     configFile,
     root: rootDir,
-    server: {
-      port: 8086,
-    },
     logLevel: 'silent',
   })
 
   // 启动服务器（这会触发插件初始化）
-  await server.listen()
+  const devServer = await server.listen()
+  console.log(`[renderer] server ${devServer.resolvedUrls?.local}`)
 
   // 等待3秒让插件生成类型文件
   await new Promise(resolve => setTimeout(resolve, 3000))
