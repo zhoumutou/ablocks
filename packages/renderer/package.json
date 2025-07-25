@@ -14,7 +14,8 @@
     "x:dev": "vite --mode dev",
     "x:build": "vite build --mode prod",
     "x:debug": "vite build --mode debug",
-    "dev-ready": "tsx scripts/dev-ready.ts"
+    "dev-ready": "tsx scripts/dev-ready.ts",
+    "generate-types": "tsx scripts/generate-types.ts"
   },
   "dependencies": {
     "@ablocks/common": "workspace:*",

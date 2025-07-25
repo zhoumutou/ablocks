@@ -1,4 +1,5 @@
 import { URL, fileURLToPath } from 'node:url'
+import path from 'node:path'
 import { defineConfig, loadEnv } from 'rolldown-vite'
 import Vue from '@vitejs/plugin-vue'
 import VueJsx from '@vitejs/plugin-vue-jsx'
@@ -23,7 +24,8 @@ function buildTestRegExp(deps: string[]) {
 
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
-  const env = loadEnv(mode, fileURLToPath(new URL('.', import.meta.url)), '')
+  const __dirname = fileURLToPath(new URL('.', import.meta.url))
+  const env = loadEnv(mode, __dirname, '')
 
   const isDebugMode = mode === 'debug'
   const isProduction = env.NODE_ENV === 'production'
@@ -48,14 +50,14 @@ export default defineConfig(({ mode }) => {
       // Markdown({}),
       AutoImport({
         imports: ['vue', 'vue-router'],
-        dts: 'src/types/auto-imports.d.ts',
+        dts: path.resolve(__dirname, './src/types/auto-imports.d.ts'),
         eslintrc: {
           enabled: true,
-          filepath: 'src/types/auto-imports.json',
+          filepath: path.resolve(__dirname, './src/types/auto-imports.json'),
         },
       }),
       Components({
-        dts: 'src/types/components.d.ts',
+        dts: './src/types/components.d.ts',
         dirs: [],
         resolvers: [
           IconsResolver({
@@ -67,7 +69,7 @@ export default defineConfig(({ mode }) => {
       Icons({
         compiler: 'vue3',
         customCollections: {
-          [customIconNamespace]: FileSystemIconLoader('src/assets/icons'),
+          [customIconNamespace]: FileSystemIconLoader(path.resolve(__dirname, './src/assets/icons')),
         },
       }),
       isProduction && !isDebugMode && Remove({ consoleType: ['debug', 'info', 'log'] }),
@@ -76,7 +78,7 @@ export default defineConfig(({ mode }) => {
     ],
     resolve: {
       alias: {
-        '@': fileURLToPath(new URL('./src', import.meta.url)),
+        '@': path.resolve(__dirname, './src'),
       },
       dedupe: ['viem'],
       conditions: ['import', 'module', 'browser', 'default'],

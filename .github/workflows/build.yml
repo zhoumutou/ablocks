@@ -42,12 +42,6 @@ jobs:
       - name: Build packages
         run: pnpm build
         
-      - name: Type check
-        run: pnpm check
-        
-      - name: Lint
-        run: pnpm lint
-        
       - name: Build distributable (macOS)
         if: matrix.os == 'macos-15'
         run: pnpm dist

@@ -4,8 +4,11 @@
     "dev-ready": {
       "cache": false
     },
-    "check": {
+    "generate-types": {
       "dependsOn": ["@ablocks/common#build"]
+    },
+    "check": {
+      "dependsOn": ["generate-types"]
     },
     "x:dev": {
       "dependsOn": ["@ablocks/common#build"],
