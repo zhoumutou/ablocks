@@ -16,7 +16,7 @@ async function main() {
     configFile,
     root: rootDir,
     server: {
-      port: 0, // 使用随机端口
+      port: 8080,
     },
     logLevel: 'silent',
   })
