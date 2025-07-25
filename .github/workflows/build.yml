@@ -19,13 +19,16 @@ jobs:
         include:
           - os: macos-15
             arch: arm64
-            platform: mac-arm64
+            platform: macOS-arm64
+            dist_args: '--mac --arm64'
           - os: macos-15
             arch: x64
-            platform: mac-x64
+            platform: macOS-x64
+            dist_args: '--mac --x64'
           - os: windows-latest
             arch: x64
-            platform: win-x64
+            platform: Windows-x86_64
+            dist_args: '--win --x64'
         
     runs-on: ${{ matrix.os }}
 
@@ -71,15 +74,10 @@ jobs:
       - name: Build packages
         run: pnpm build
         
-      - name: Build distributable (macOS)
-        if: startsWith(matrix.platform, 'mac')
-        run: pnpm dist
+      - name: Build distributable
+        run: pnpm dist -- ${{ matrix.dist_args }}
         env:
           CSC_IDENTITY_AUTO_DISCOVERY: false
-          
-      - name: Build distributable (Windows)
-        if: startsWith(matrix.platform, 'win')
-        run: pnpm dist
         
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
@@ -102,14 +100,15 @@ jobs:
         uses: actions/download-artifact@v4
         
       - name: Create Release
-        uses: softprops/action-gh-release@v2
+        uses: ncipollo/release-action@v1
         with:
-          files: |
-            mac-arm64-builds/*
-            mac-x64-builds/*
-            win-x64-builds/*
+          artifacts: |
+            macOS-arm64-builds/*
+            macOS-x64-builds/*
+            Windows-x86_64-builds/*
           draft: false
           prerelease: false
-          generate_release_notes: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          generateReleaseNotes: true
+          allowUpdates: true
+          replacesArtifacts: true
+          token: ${{ secrets.GITHUB_TOKEN }}

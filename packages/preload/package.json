@@ -1,6 +1,5 @@
 {
   "name": "@ablocks/preload",
-  "version": "0.1.0",
   "type": "module",
   "scripts": {
     "dev": "turbo run x:dev",
