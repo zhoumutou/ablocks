@@ -31,6 +31,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
         
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -45,9 +48,6 @@ jobs:
         with:
           python-version: '3.13'
           architecture: ${{ matrix.arch }}
-          
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
 
       # 可选：缓存 Electron 预编译二进制文件
       - name: Cache Electron
