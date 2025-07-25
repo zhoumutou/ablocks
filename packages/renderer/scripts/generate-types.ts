@@ -5,6 +5,7 @@ import { URL, fileURLToPath } from 'node:url'
 import path from 'node:path'
 import { existsSync } from 'node:fs'
 import { createServer } from 'rolldown-vite'
+import getPort from 'get-port'
 
 async function main() {
   const rootDir = fileURLToPath(new URL('..', import.meta.url))
@@ -18,8 +19,9 @@ async function main() {
     logLevel: 'silent',
   })
 
+  const port = await getPort()
   // 启动服务器（这会触发插件初始化）
-  const devServer = await server.listen()
+  const devServer = await server.listen(port)
   console.log(`[renderer] server ${devServer.resolvedUrls?.local}`)
 
   // 等待3秒让插件生成类型文件
