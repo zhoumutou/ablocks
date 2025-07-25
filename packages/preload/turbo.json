@@ -1,0 +1,23 @@
+{
+  "extends": ["//"],
+  "tasks": {
+    "check": {
+      "dependsOn": ["@ablocks/common#build"]
+    },
+    "x:dev": {
+      "dependsOn": ["check"],
+      "inputs": ["src/**", "{vite,eslint,lint-staged,vitest}.config.{ts,js}", "tsconfig.json", "package.json", "MODE=dev"],
+      "outputs": ["dist/**"]
+    },
+    "x:build": {
+      "dependsOn": ["check"],
+      "inputs": ["src/**", "{vite,eslint,lint-staged,vitest}.config.{ts,js}", "tsconfig.json", "package.json", "MODE=prod"],
+      "outputs": ["dist/**"]
+    },
+    "x:debug": {
+      "dependsOn": ["check"],
+      "inputs": ["src/**", "{vite,eslint,lint-staged,vitest}.config.{ts,js}", "tsconfig.json", "package.json", "MODE=debug"],
+      "outputs": ["dist/**"]
+    }
+  }
+}

@@ -1,0 +1,118 @@
+html,
+body {
+  min-height: 100vh;
+}
+
+#app {
+  min-height: 100vh;
+}
+
+.allow-drag {
+  -webkit-app-region: drag;
+}
+
+.no-drag {
+  -webkit-app-region: no-drag;
+}
+
+.markdown-body {
+  ol,
+  ul,
+  menu {
+    list-style: initial;
+  }
+
+  ol {
+    list-style-type: decimal;
+  }
+}
+
+.shiki-code {
+  pre {
+    height: 100%;
+    padding: 8px 0;
+    overflow: auto;
+    position: relative;
+    --text-color: currentColor;
+
+    & > code {
+      background-color: inherit;
+
+      & > .line {
+        background-color: inherit;
+
+        .line-number {
+          background-color: inherit;
+          user-select: none;
+          text-align: right;
+          display: inline-block;
+          width: var(--ln-width, 56px);
+          padding-right: var(--ln-pr, 12px);
+          position: sticky;
+          left: 0;
+          color: color-mix(in srgb, var(--text-color) 40%, white);
+          pointer-events: none;
+
+          &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: currentColor;
+            opacity: 0.05;
+            z-index: -1;
+            pointer-events: none;
+          }
+        }
+      }
+    }
+  }
+}
+
+:root {
+  --code-layout-color-highlight: #c8c8c8;
+  --code-layout-color-border-background: #c8c8c8;
+}
+
+.code-layout-split-base {
+  &.vertical {
+    & > .code-layout-split-dragger,
+    & > .split-n-container > .code-layout-split-dragger {
+      height: 0 !important;
+    }
+  }
+
+  &.horizontal {
+    & > .code-layout-split-dragger,
+    & > .split-n-container > .code-layout-split-dragger {
+      width: 0 !important;
+    }
+  }
+
+  .code-layout-split-dragger {
+    z-index: 999;
+  }
+  .code-layout-split-orthogonal-drag-handle {
+    display: none;
+  }
+
+  .code-layout-split-tab {
+    &:has(> .code-layout-split-tab-content > .hide-header) {
+      --tab-height: 0;
+
+      .code-layout-split-tab-list {
+        display: none;
+      }
+    }
+  }
+}
+
+.blockly {
+  .blocklyFlyoutScrollbar {
+    &[display='none'] {
+      display: none;
+    }
+  }
+}

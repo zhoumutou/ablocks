@@ -1,0 +1,20 @@
+{
+  "extends": ["//"],
+  "tasks": {
+    "dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "preview": {
+      "cache": false,
+      "persistent": true
+    },
+    "x:dev": {
+      "dependsOn": ["@ablocks/main#dev", "@ablocks/preload#dev", "@ablocks/renderer#dev-ready"],
+      "inputs": ["app/main/**", "app/preload/**"]
+    },
+    "x:build": {
+      "dependsOn": ["@ablocks/main#build", "@ablocks/preload#build", "@ablocks/renderer#build"]
+    }
+  }
+}

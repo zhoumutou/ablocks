@@ -1,0 +1,22 @@
+{
+  "private": true,
+  "name": "ablocks",
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "preview": "turbo run preview",
+    "dist": "turbo run dist",
+    "lint": "turbo run lint",
+    "check": "turbo run check",
+    "test": "turbo run test",
+    "test:coverage": "turbo run test:coverage"
+  },
+  "devDependencies": {
+    "turbo": "^2.5.5"
+  },
+  "engines": {
+    "node": ">= 22"
+  },
+  "packageManager": "pnpm@10.13.1"
+}

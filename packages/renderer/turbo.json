@@ -1,0 +1,24 @@
+{
+  "extends": ["//"],
+  "tasks": {
+    "dev-ready": {
+      "cache": false
+    },
+    "check": {
+      "dependsOn": ["@ablocks/common#build"]
+    },
+    "x:dev": {
+      "dependsOn": ["@ablocks/common#build"],
+      "cache": false,
+      "persistent": true
+    },
+    "x:build": {
+      "dependsOn": ["check"],
+      "outputs": ["dist/**"]
+    },
+    "x:debug": {
+      "dependsOn": ["check"],
+      "outputs": ["dist/**"]
+    }
+  }
+}

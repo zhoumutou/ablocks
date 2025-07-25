@@ -1,0 +1,13 @@
+{
+  "private": true,
+  "name": "ablocks",
+  "productName": "ABlocks",
+  "version": "0.1.0",
+  "description": "This is a description for ABlocks.",
+  "author": "Gauss",
+  "main": "main/index.js",
+  "type": "module",
+  "dependencies": {
+    "serialport": "^13.0.0"
+  }
+}
