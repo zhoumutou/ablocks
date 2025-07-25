@@ -13,7 +13,6 @@ const config: Configuration = {
   mac: {
     category: 'public.app-category.productivity',
     electronLanguages: ['zh-CN', 'en'],
-    artifactName: `\${name}-\${version}-\${arch}-mac.\${ext}`,
     target: [
       {
         target: 'dmg',
@@ -26,8 +25,6 @@ const config: Configuration = {
     ],
   },
   dmg: {
-    artifactName: `\${name}-\${version}-\${arch}.\${ext}`,
-    title: `\${productName} \${version}`,
     window: {
       width: 540,
       height: 484,
@@ -47,7 +44,6 @@ const config: Configuration = {
     ],
   },
   win: {
-    artifactName: `\${name}-\${version}-\${arch}-win.\${ext}`,
     target: [
       {
         target: 'nsis',
@@ -60,7 +56,6 @@ const config: Configuration = {
     ],
   },
   nsis: {
-    artifactName: `\${name}-\${version}-setup.\${ext}`,
     shortcutName: `\${productName}`,
     oneClick: false,
     allowToChangeInstallationDirectory: true,

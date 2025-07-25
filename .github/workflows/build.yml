@@ -12,7 +12,16 @@ jobs:
   build:
     strategy:
       matrix:
-        os: [macos-15, windows-latest]
+        include:
+          - os: macos-15
+            arch: arm64
+            platform: mac-arm64
+          - os: macos-15
+            arch: x64
+            platform: mac-x64
+          - os: windows-latest
+            arch: x64
+            platform: win-x64
         
     runs-on: ${{ matrix.os }}
 
@@ -27,11 +36,13 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22'
+          architecture: ${{ matrix.arch }}
           
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.13'
+          architecture: ${{ matrix.arch }}
           
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
@@ -43,33 +54,23 @@ jobs:
         run: pnpm build
         
       - name: Build distributable (macOS)
-        if: matrix.os == 'macos-15'
+        if: startsWith(matrix.platform, 'mac')
         run: pnpm dist
         env:
           CSC_IDENTITY_AUTO_DISCOVERY: false
           
       - name: Build distributable (Windows)
-        if: matrix.os == 'windows-latest'
+        if: startsWith(matrix.platform, 'win')
         run: pnpm dist
         
-      - name: Upload artifacts (macOS)
-        if: matrix.os == 'macos-15'
+      - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: macos-builds
+          name: ${{ matrix.platform }}-builds
           path: |
             apps/ablocks/dist/*.dmg
-            apps/ablocks/dist/*.zip
-            
-      - name: Upload artifacts (Windows)
-        if: matrix.os == 'windows-latest'
-        uses: actions/upload-artifact@v4
-        with:
-          name: windows-builds
-          path: |
             apps/ablocks/dist/*.exe
-            apps/ablocks/dist/*-win.zip
-
+        
   release:
     needs: build
     runs-on: ubuntu-latest
@@ -86,8 +87,9 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            macos-builds/*
-            windows-builds/*
+            mac-arm64-builds/*
+            mac-x64-builds/*
+            win-x64-builds/*
           draft: false
           prerelease: false
           generate_release_notes: true
