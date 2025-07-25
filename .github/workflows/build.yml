@@ -12,7 +12,7 @@ jobs:
   build:
     strategy:
       matrix:
-        os: [macos-latest, windows-latest, ubuntu-latest]
+        os: [macos-15, windows-latest]
         
     runs-on: ${{ matrix.os }}
     
@@ -35,24 +35,6 @@ jobs:
         with:
           version: latest
           
-      - name: Get pnpm store directory
-        shell: bash
-        run: |
-          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
-          
-      - name: Setup pnpm cache
-        uses: actions/cache@v3
-        with:
-          path: ${{ env.STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
-            
-      - name: Configure Electron mirror (China users)
-        run: |
-          pnpm config set electron_mirror https://npmmirror.com/mirrors/electron/
-          pnpm config set electron_custom_dir "{{ version }}"
-          
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
         
@@ -66,7 +48,7 @@ jobs:
         run: pnpm lint
         
       - name: Build distributable (macOS)
-        if: matrix.os == 'macos-latest'
+        if: matrix.os == 'macos-15'
         run: pnpm dist
         env:
           CSC_IDENTITY_AUTO_DISCOVERY: false
@@ -75,12 +57,8 @@ jobs:
         if: matrix.os == 'windows-latest'
         run: pnpm dist
         
-      - name: Build distributable (Linux)
-        if: matrix.os == 'ubuntu-latest'
-        run: pnpm dist
-        
       - name: Upload artifacts (macOS)
-        if: matrix.os == 'macos-latest'
+        if: matrix.os == 'macos-15'
         uses: actions/upload-artifact@v3
         with:
           name: macos-builds
@@ -96,16 +74,6 @@ jobs:
           path: |
             apps/ablocks/dist/*.exe
             apps/ablocks/dist/*-win.zip
-            
-      - name: Upload artifacts (Linux)
-        if: matrix.os == 'ubuntu-latest'
-        uses: actions/upload-artifact@v3
-        with:
-          name: linux-builds
-          path: |
-            apps/ablocks/dist/*.AppImage
-            apps/ablocks/dist/*.deb
-            apps/ablocks/dist/*.rpm
 
   release:
     needs: build
@@ -125,7 +93,6 @@ jobs:
           files: |
             macos-builds/*
             windows-builds/*
-            linux-builds/*
           draft: false
           prerelease: false
           generate_release_notes: true
