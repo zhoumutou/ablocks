@@ -47,11 +47,11 @@ const config: Configuration = {
     target: [
       {
         target: 'nsis',
-        arch: ['ia32', 'x64'],
+        arch: ['x64'],
       },
       {
         target: 'zip',
-        arch: ['ia32', 'x64'],
+        arch: ['x64'],
       },
     ],
   },

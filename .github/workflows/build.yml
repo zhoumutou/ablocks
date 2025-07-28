@@ -15,20 +15,23 @@ permissions:
 jobs:
   build:
     strategy:
+      fail-fast: true
       matrix:
         include:
           - os: macos-15
-            arch: arm64
-            platform: macOS-arm64
-            dist_args: '--mac --arm64'
-          - os: macos-15
-            arch: x64
-            platform: macOS-x64
-            dist_args: '--mac --x64'
+            platform: mac
+            artifacts: |
+              apps/ablocks/dist/*.dmg
+              apps/ablocks/dist/*.zip
+              apps/ablocks/dist/*.blockmap
+              apps/ablocks/dist/latest-mac.yml
           - os: windows-latest
-            arch: x64
-            platform: Windows-x86_64
-            dist_args: '--win --x64'
+            platform: win
+            artifacts: |
+              apps/ablocks/dist/*.exe
+              apps/ablocks/dist/*.zip
+              apps/ablocks/dist/*.blockmap
+              apps/ablocks/dist/latest.yml
         
     runs-on: ${{ matrix.os }}
 
@@ -46,33 +49,19 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22'
-          architecture: ${{ matrix.arch }}
-          cache: 'pnpm'  # 使用内置缓存
+          cache: 'pnpm'
           cache-dependency-path: '**/pnpm-lock.yaml'
           
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.13'
-          architecture: ${{ matrix.arch }}
-
-      # 可选：缓存 Electron 预编译二进制文件
-      - name: Cache Electron
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.cache/electron
-            ~/Library/Caches/electron
-            %LOCALAPPDATA%\electron\Cache
-          key: ${{ runner.os }}-${{ matrix.arch }}-electron-${{ hashFiles('**/package.json') }}
-          restore-keys: |
-            ${{ runner.os }}-${{ matrix.arch }}-electron-
           
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
         
       - name: Build distributable
-        run: pnpm dist -- ${{ matrix.dist_args }}
+        run: pnpm dist
         env:
           CSC_IDENTITY_AUTO_DISCOVERY: false
         
@@ -80,9 +69,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.platform }}-builds
-          path: |
-            apps/ablocks/dist/*.dmg
-            apps/ablocks/dist/*.exe
+          path: ${{ matrix.artifacts }}
         
   release:
     needs: build
@@ -100,9 +87,8 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           artifacts: |
-            macOS-arm64-builds/*
-            macOS-x64-builds/*
-            Windows-x86_64-builds/*
+            mac-builds/*
+            win-builds/*
           draft: false
           prerelease: false
           generateReleaseNotes: true
