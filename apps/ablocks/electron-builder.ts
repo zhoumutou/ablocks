@@ -1,6 +1,8 @@
 import type { Configuration } from 'electron-builder'
 import dayjs from 'dayjs'
 
+const RELEASE_TIME = dayjs().toISOString()
+
 const config: Configuration = {
   appId: `edu.blockly.ablocks`,
   electronLanguages: ['zh-CN', 'en-US'],
@@ -8,8 +10,9 @@ const config: Configuration = {
     metadata: {},
   },
   async beforePack() {
-    config.extraMetadata.metadata.releaseTime = dayjs().format('YYYY-MM-DD HH:mm:ss')
+    config.extraMetadata.metadata.releaseTime = RELEASE_TIME
   },
+  artifactName: `\${productName}-\${version}-\${arch}.\${ext}`,
   mac: {
     category: 'public.app-category.productivity',
     electronLanguages: ['zh-CN', 'en'],
@@ -47,10 +50,6 @@ const config: Configuration = {
     target: [
       {
         target: 'nsis',
-        arch: ['x64'],
-      },
-      {
-        target: 'zip',
         arch: ['x64'],
       },
     ],
