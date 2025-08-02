@@ -2,7 +2,7 @@
   "private": true,
   "name": "ablocks",
   "productName": "ABlocks",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "This is a description for ABlocks.",
   "author": "Gauss",
   "main": "main/index.js",
