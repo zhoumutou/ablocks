@@ -1,4 +1,4 @@
-name: Build and Release
+name: Release
 
 on:
   push:
@@ -31,30 +31,29 @@ jobs:
             dist: apps/ablocks/dist
             artifacts: |
               apps/ablocks/dist/*.exe
-              apps/ablocks/dist/*.zip
               apps/ablocks/dist/*.blockmap
               apps/ablocks/dist/latest.yml
         
     runs-on: ${{ matrix.os }}
 
     env:
-      NODE_OPTIONS: --max-old-space-size=8192
+      NODE_OPTIONS: --max-old-space-size=4096
     
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup pnpm
+      - name: Install pnpm
         uses: pnpm/action-setup@v4
         
-      - name: Setup Node.js
+      - name: Install Node
         uses: actions/setup-node@v4
         with:
           node-version: '22'
           cache: 'pnpm'
           cache-dependency-path: '**/pnpm-lock.yaml'
           
-      - name: Setup Python
+      - name: Install Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.13'
@@ -66,17 +65,11 @@ jobs:
         run: pnpm dist
         env:
           CSC_IDENTITY_AUTO_DISCOVERY: false
-
-      - name: List build artifacts
-        shell: bash
-        run: |
-          echo "📁 Build artifacts:"
-          find ${{ matrix.dist }} -type f -name "*" | sort
         
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.platform }}-builds
+          name: artifacts
           path: ${{ matrix.artifacts }}
         
   release:
@@ -85,26 +78,11 @@ jobs:
     if: startsWith(github.ref, 'refs/tags/v')
     
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        
-      - name: Download all artifacts
+      - name: Download artifacts
         uses: actions/download-artifact@v4
-      
-      - name: List downloaded artifacts
-        run: |
-          echo "📦 Downloaded artifacts:"
-          find . -name "*-builds" -type d | xargs -I {} find {} -type f | sort
         
       - name: Create Release
-        uses: ncipollo/release-action@v1
+        uses: softprops/action-gh-release@v2
         with:
-          artifacts: |
-            mac-builds/*
-            win-builds/*
-          draft: false
-          prerelease: false
-          generateReleaseNotes: true
-          allowUpdates: true
-          replacesArtifacts: true
-          token: ${{ secrets.GITHUB_TOKEN }}
+          files: artifacts/*
+          generate_release_notes: true
