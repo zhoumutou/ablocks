@@ -3,6 +3,7 @@ packages:
   - apps/*
 
 onlyBuiltDependencies:
+  - '@parcel/watcher'
   - '@serialport/bindings-cpp'
   - '@tailwindcss/oxide'
   - electron
