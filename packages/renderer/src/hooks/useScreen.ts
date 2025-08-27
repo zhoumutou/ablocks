@@ -52,7 +52,7 @@ function update() {
 
   screenRef.value = {
     ...screenRef.value,
-    name: items[0].name,
+    name: items[0]!.name,
     ...matches,
     lt,
     isMobile: isMobile(),

@@ -69,7 +69,7 @@ if (import.meta.env.DEV) {
     },
   ]
 
-  routes[0].children?.splice(-1, 0, ...testRoutes)
+  routes[0]!.children?.splice(-1, 0, ...testRoutes)
 }
 
 const router = createRouter({

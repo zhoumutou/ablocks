@@ -55,8 +55,9 @@ export class ArduinoGenerator extends CodeGenerator {
     for (const key in Order) {
       const value = Order[key]
       if (typeof value === 'string')
-        continue;
-      (this as unknown as Record<string, Order>)[`ORDER_${key}`] = value
+        continue
+      // @ts-ignore
+      this[`ORDER_${key}`] = value
     }
 
     this.addReservedWords(
@@ -96,7 +97,7 @@ export class ArduinoGenerator extends CodeGenerator {
     for (let i = 0; i < devVarList.length; i++) {
       defvars.push(
         this.nameDB_.getName(
-          devVarList[i],
+          devVarList[i]!,
           Names.NameType.DEVELOPER_VARIABLE,
         ),
       )
@@ -107,7 +108,7 @@ export class ArduinoGenerator extends CodeGenerator {
     for (let i = 0; i < variables.length; i++) {
       defvars.push(
         this.nameDB_.getName(
-          variables[i].getId(),
+          variables[i]!.getId(),
           Names.NameType.VARIABLE,
         ),
       )
@@ -278,8 +279,8 @@ export class ArduinoGenerator extends CodeGenerator {
       // Collect comments for all value arguments.
       // Don't collect comments for nested statements.
       for (let i = 0; i < block.inputList.length; i++) {
-        if (block.inputList[i].type === inputTypes.VALUE) {
-          const childBlock = block.inputList[i].connection!.targetBlock()
+        if (block.inputList[i]!.type === inputTypes.VALUE) {
+          const childBlock = block.inputList[i]!.connection!.targetBlock()
           if (childBlock) {
             comment = this.allNestedComments(childBlock)
             if (comment) {
@@ -358,56 +359,56 @@ export class ArduinoGenerator extends CodeGenerator {
   }
 
   addMacro(tag: string, code: string) {
-    if (this.codeDict.macros[tag] === undefined) {
-      this.codeDict.macros[tag] = code
+    if (this.codeDict.macros![tag] === undefined) {
+      this.codeDict.macros![tag] = code
     }
   }
 
   addLibrary(tag: string, code: string) {
-    if (this.codeDict.libraries[tag] === undefined) {
-      this.codeDict.libraries[tag] = code
+    if (this.codeDict.libraries![tag] === undefined) {
+      this.codeDict.libraries![tag] = code
     }
   }
 
   addVariable(tag: string, code: string) {
-    if (this.codeDict.variables[tag] === undefined) {
-      this.codeDict.variables[tag] = code
+    if (this.codeDict.variables![tag] === undefined) {
+      this.codeDict.variables![tag] = code
     }
   }
 
   addObject(tag: string, code: string) {
-    if (this.codeDict.objects[tag] === undefined) {
-      this.codeDict.objects[tag] = code
+    if (this.codeDict.objects![tag] === undefined) {
+      this.codeDict.objects![tag] = code
     }
   }
 
   addFunction(tag: string, code: string) {
-    if (this.codeDict.functions[tag] === undefined) {
-      this.codeDict.functions[tag] = code
+    if (this.codeDict.functions![tag] === undefined) {
+      this.codeDict.functions![tag] = code
     }
   }
 
   addSetup(tag: string, code: string) {
-    if (this.codeDict.setups[tag] === undefined) {
-      this.codeDict.setups[tag] = code
+    if (this.codeDict.setups![tag] === undefined) {
+      this.codeDict.setups![tag] = code
     }
   }
 
   addUserSetup(tag: string, code: string) {
-    if (this.codeDict.userSetups[tag] === undefined) {
-      this.codeDict.userSetups[tag] = code
+    if (this.codeDict.userSetups![tag] === undefined) {
+      this.codeDict.userSetups![tag] = code
     }
   }
 
   addLoop(tag: string, code: string) {
-    if (this.codeDict.loops[tag] === undefined) {
-      this.codeDict.loops[tag] = code
+    if (this.codeDict.loops![tag] === undefined) {
+      this.codeDict.loops![tag] = code
     }
   }
 
   addUserLoop(tag: string, code: string) {
-    if (this.codeDict.userLoops[tag] === undefined) {
-      this.codeDict.userLoops[tag] = code
+    if (this.codeDict.userLoops![tag] === undefined) {
+      this.codeDict.userLoops![tag] = code
     }
   }
 

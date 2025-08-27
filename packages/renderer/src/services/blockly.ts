@@ -85,7 +85,7 @@ const blocklyService = {
       return false
     }
 
-    const data = await ipc.invoke(FileInvoke.readJson, filePaths[0])
+    const data = await ipc.invoke(FileInvoke.readJson, filePaths[0]!)
     if (!data) {
       noticeService.warn('打开失败')
       return false
