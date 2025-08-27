@@ -5,7 +5,14 @@ export function useTitle() {
     const observer = new MutationObserver(() => {
       title.value = document.title
     })
-    observer.observe(document.querySelector('title')!, { childList: true })
+
+    let titleEl = document.querySelector('title')
+    if (!titleEl) {
+      document.title = ''
+      titleEl = document.querySelector('title')
+    }
+
+    observer.observe(titleEl!, { childList: true })
 
     onBeforeUnmount(() => {
       observer.disconnect()
