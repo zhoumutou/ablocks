@@ -11,7 +11,7 @@
     "test:coverage": "turbo run test:coverage"
   },
   "devDependencies": {
-    "turbo": "^2.5.6"
+    "turbo": "catalog:"
   },
   "engines": {
     "node": ">= 22"

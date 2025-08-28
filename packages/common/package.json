@@ -37,24 +37,24 @@
     "prepublishOnly": "pnpm build"
   },
   "dependencies": {
-    "dayjs": "^1.11.14"
+    "dayjs": "catalog:"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^5.2.1",
-    "@tsconfig/node22": "^22.0.2",
-    "@types/node": "^24.3.0",
-    "@types/web": "^0.0.264",
-    "@vitest/eslint-plugin": "^1.3.4",
-    "eslint": "^9.34.0",
-    "eslint-plugin-format": "^1.0.1",
-    "eslint-plugin-oxlint": "^1.13.0",
-    "jiti": "^2.5.1",
-    "lint-staged": "^16.1.5",
-    "npm-run-all2": "^8.0.4",
-    "oxlint": "^1.13.0",
-    "tsdown": "^0.14.2",
-    "typescript": "~5.8.3",
-    "vitest": "^3.2.4"
+    "@antfu/eslint-config": "catalog:",
+    "@tsconfig/node22": "catalog:",
+    "@types/node": "catalog:",
+    "@types/web": "catalog:",
+    "@vitest/eslint-plugin": "catalog:",
+    "eslint": "catalog:",
+    "eslint-plugin-format": "catalog:",
+    "eslint-plugin-oxlint": "catalog:",
+    "jiti": "catalog:",
+    "lint-staged": "catalog:",
+    "npm-run-all2": "catalog:",
+    "oxlint": "catalog:",
+    "tsdown": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
   },
   "engines": {
     "node": ">= 22"

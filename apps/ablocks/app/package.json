@@ -4,7 +4,7 @@
   "productName": "ABlocks",
   "version": "0.1.10",
   "description": "This is a description for ABlocks.",
-  "author": "Gauss",
+  "author": "zhoumutou",
   "main": "main/index.js",
   "type": "module",
   "dependencies": {
