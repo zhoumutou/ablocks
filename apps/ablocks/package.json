@@ -23,7 +23,7 @@
     "arg": "^5.0.2",
     "cpy": "^12.0.1",
     "dayjs": "^1.11.14",
-    "electron": "~37.2.6",
+    "electron": "~37.4.0",
     "electron-builder": "^26.0.12",
     "eslint": "^9.34.0",
     "eslint-plugin-format": "^1.0.1",
